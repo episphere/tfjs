@@ -1,0 +1,24 @@
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"> </script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis"></script>
+<script src="jonas.js"></script>
+<script src="praful.js"></script>
+<h2>tfjs playground <span style="font-size:small">[<a href="https://github.com/episphere/tfjs" target="_blank">code</a>]</script></h2>
+<p>There is nothing to see here, all the action in in the console.</p>
+<p>Anything you pass in search or hash will be executed as a command</p>
+
+<script>
+    if((location.search+location.hash).length>2){
+        eval((location.search+location.hash).slice(1))
+    }
+</script>
+
+
+<style>
+body {
+    color:navy;
+    font-family:courier
+}
+h2 {
+    color:maroon
+}
+</style>

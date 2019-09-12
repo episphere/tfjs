@@ -1,0 +1,1 @@
+console.log('praful.js loaded')
