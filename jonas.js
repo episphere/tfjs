@@ -20,10 +20,12 @@ jonas.getTrainTest=async function(dt,p){ // returns [xtrain, ytrain, ytrain, yte
 
 jonas.dt2tab=function(dt){ // creates a tabular data frame
     dt=dt || jonas.irisData
-    const tb={labels:Object.keys(dt[0])}
-    tb.data=dt.map(x=>{
-        return tb.labels.map(lb=>x[lb])        
-    })
+    const attrs = Object.keys(dt[0])
+    const tb={parms:attrs.slice(0,-1)}
+
+    tb.data={x:dt.map(x=>{
+        return tb.parms.map(lb=>x[lb])        
+    })}
     
     return tb
 }
