@@ -9,10 +9,16 @@
 <hr>
 <li><a href="#jonas()" target="_blank">#jonas()</a> saying hello</li>
 <li><a href="#jonas.getIris()" target="_blank">#jonas.getIris()</a> iris data at jonas.irisData</li>
+<br/>
+<hr/>
+<br/>
+<li><a href="#praful()" target="_blank">#praful()</a></li>
+<li><a href='?split=0.2&arch=[5,3,3]&activation=sigmoid&bias=false&optimizer=sgd&loss=categoricalCrossentropy&metrics=["accuracy","precision"]&epochs=100&batchSize=8#praful()' target="_blank">?split=0.2&arch=[5,3,3]&activation=sigmoid&bias=false&optimizer=sgd&loss=categoricalCrossentropy&metrics=["accuracy","precision"]&epochs=100&batchSize=8#praful()</a></li>
+
 
 <script>
-    if((location.search+location.hash).length>2){
-        eval((location.search+location.hash).slice(1))
+    if(location.hash.length>2){
+        eval((location.hash).slice(1))
     }
 </script>
 
