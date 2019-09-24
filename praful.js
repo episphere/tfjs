@@ -1,10 +1,19 @@
 console.log('praful.js loaded')
 
 urlParams = {}
-window.location.search.slice(1).split('&').forEach(param => {
-  const [key, value] = param.split('=')
-  urlParams[key] = value
-})
+if(!window.location.origin.includes("repl.it")) {
+  window.location.search.slice(1).split('&').forEach(param => {
+    const [key, value] = param.split('=')
+    urlParams[key] = value
+  })
+}
+
+replParams = (qs) => {
+  qs.slice(1).split('&').forEach(param => {
+    const [key, value] = param.split('=')
+    urlParams[key] = value
+  })
+}
 
 datasets = {
   'iris': {
@@ -15,7 +24,7 @@ datasets = {
 
 praful = async () => {
   const dataset = urlParams.dataset || "iris"
-  const trainTestRatio = urlParams.split || 0.2
+  const trainTestRatio = urlParams.split ? parseFloat(urlParams.split) : 0.2
   const arch = (urlParams.arch && eval(urlParams.arch).length >= 3) ? eval(decodeURIComponent(urlParams.arch)) : [5, 3, 3]
   const activation = urlParams.activation || 'relu'
   const useBias = (urlParams.bias && eval(urlParams.bias)) || false
@@ -47,14 +56,24 @@ praful = async () => {
     metrics
   }
   praful.model = praful.buildModel(modelConfig)
-
+  
   const trainingConfig = {
     model: praful.model,
     epochs,
     batchSize,
     ...praful.data.training
   }
+  alert("Start Training?")
   await praful.trainModel(trainingConfig)
+
+  const testConfig = {
+    model: praful.model,
+    batchSize,
+    ...praful.data.test
+  }
+  console.log(testConfig.data)
+  alert("Test Model?")
+  await praful.testModel(testConfig)
 }
 
 
@@ -155,19 +174,46 @@ praful.trainModel = (trainingConfig) => {
   epochs = epochs || 100
   batchSize = batchSize || 8
   callbacks = callbacks || {
-    onTrainBegin: () => console.log("TRAINING BEGINS!"),
+    onTrainBegin: () => { 
+      console.log("TRAINING BEGINS! Initial Weights: ")
+      model.weights.forEach(w => w.val.print())
+    },
     onTrainEnd: () => console.log("TRAINING DONE!"),
     onEpochBegin: (epoch) => console.log(`Starting Epoch ${epoch}`),
     onEpochEnd: () => console.log("======================================================================================================"),
-    onBatchEnd: (batch, logs) => console.log(`Accuracy for batch ${batch}: ${logs.acc}`)
-  } 
-  alert("Start Training?")
-  model.fit(data, labels, {
+    onBatchEnd: (batch, logs) => console.log(`Accuracy for batch ${batch+1}: ${logs.acc}`)
+  }
+  return model.fit(data, labels, {
     epochs,
     batchSize,
     callbacks
   }).then(info => {
+    praful.model = model
     console.log("Model History: ", info.history)
     console.log("Final Accuracy: ", info.history.acc[epochs - 1])
+    console.log("Final weights: ") 
+    model.weights.forEach(layerWeights => {
+      console.log(`Layer ${layerWeights.name} has weights of shape ${layerWeights.shape}. Values:`)
+      layerWeights.val.print()
+    })
+  })
+}
+
+praful.testModel = (testConfig) => {
+  console.log("Starting Test!")
+  tf.tidy(() => {
+    let { model, data, labels, batchSize } = testConfig
+    if (!model) {
+      console.error("NO MODEL FOUND!")
+    }
+    const predictions = model.predict(data, {
+      batchSize
+    })
+    console.log("Class Probability Predictions on Test Set:")
+    predictions.print()
+    console.log("Labels Predicted vs Labels Actual:")
+    tf.map_fn((pred, index) => {
+      console.log(tf.argmax(pred), labels[index])
+    }, predictions)
   })
 }
