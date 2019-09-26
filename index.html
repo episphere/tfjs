@@ -5,12 +5,8 @@
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis"></script>
   <script src="jonas.js"></script>
   <script src="praful.js"></script>
-  <script>
-    if (location.hash.length > 2) {
-      eval((location.hash).slice(1))
-    }
-  </script>
-
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
   <style>
     body {
@@ -25,24 +21,36 @@
 </head>
 
 <body>
-  <h2>tfjs playground
-    <span style="font-size:small">
-      [<a href="https://github.com/episphere/tfjs" target="_blank">code</a>, live at 
-      <a href=https://episphere.github.io/tfjs>https://episphere.github.io/tfjs</a>]
-    </span>
-  </h2>
-  <p>There is nothing to see here, all the action in in the console.</p>
-  <p>Anything you pass in hash will be executed as a command</p>
-  <hr>
-  <li><a href="#jonas()" target="_blank">#jonas()</a> saying hello</li>
-  <li><a href="#jonas.getIris()" target="_blank">#jonas.getIris()</a> iris data at jonas.irisData</li>
-  <br />
-  <hr />
-  <br />
-  <li><a href="#praful()" target="_blank">#praful()</a></li>
-  <li><a href='?split=0.2&arch=[5,3,3]&activation=sigmoid&bias=false&optimizer=sgd&loss=categoricalCrossentropy&metrics=["accuracy","precision"]&epochs=100&batchSize=8#praful()' target="_blank">?split=0.2&arch=[5,3,3]&activation=sigmoid&bias=false&optimizer=sgd&loss=categoricalCrossentropy&metrics=["accuracy","precision"]&epochs=100&batchSize=8#praful()</a>
-  </li>
+  <div class="container-fluid">
+    <h2>tfjs playground
+      <span style="font-size:small">
+        [<a href="https://github.com/episphere/tfjs" target="_blank">code</a>, live at 
+        <a href=https://episphere.github.io/tfjs>https://episphere.github.io/tfjs</a>]
+      </span>
+    </h2>
+    <p>There is nothing to see here, all the action in in the console.</p>
+    <p>Anything you pass in hash will be executed as a command</p>
+    <hr>
+    <li><a href="#jonas()" target="_blank">#jonas()</a> saying hello</li>
+    <li><a href="#jonas.getIris()" target="_blank">#jonas.getIris()</a> iris data at jonas.irisData</li>
+    <br />
+    <hr />
+    <br />
+    <li><a href="#praful()" target="_blank">#praful()</a></li>
+    <li><a href='?split=0.2&arch=[5,3,3]&activation=tanh&bias=false&optimizer=sgd&loss=categoricalCrossentropy&metrics=["accuracy","precision"]&epochs=100&batchSize=8#praful()' target="_blank">?split=0.2&arch=[5,3,3]&activation=tanh&bias=false&optimizer=sgd&loss=categoricalCrossentropy&metrics=["accuracy","precision"]&epochs=100&batchSize=8#praful()</a>
+    </li>
+    <div id="prafulVis">
+      <br/>
+      <br/>
+      <button class="btn btn-primary" onclick="praful.visor.toggle(); return false;">Toggle Visor</button>
+    </div>
+  </div>
 
+  <script>
+    if (location.hash.length > 2) {
+      eval((location.hash).slice(1))
+    }
+  </script>
 </body>
 
 </html>
