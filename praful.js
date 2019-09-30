@@ -1,5 +1,5 @@
 console.log('praful.js loaded')
-modelPath = 'localstorage://iris-model'
+modelPath = 'downloads://iris-model.json'
 
 urlParams = {}
 if (!window.location.origin.includes("repl.it")) {
@@ -63,7 +63,7 @@ praful = async () => {
     praful.model = praful.buildModel(modelConfig)
   }
   
-  await praful.renderVisualizations(praful.model)
+  praful.renderVisualizations(praful.model)
   console.log("Model Architecture: ")
   praful.model.summary()
   console.log("Weights: ")
@@ -93,12 +93,12 @@ praful = async () => {
 }
 
 praful.renderVisualizations = async (model) => {
-  await tfvis.show.modelSummary({
+  tfvis.show.modelSummary({
     'name': "Model Architecture",
     'tab': "Model"
   }, model)
-  await model.layers.forEach(async (layer, index) => {
-    await tfvis.show.layer({
+  model.layers.forEach(async (layer, index) => {
+    tfvis.show.layer({
       'name': `Layer ${index+1}`,
       'tab': "Model"
     }, layer)
