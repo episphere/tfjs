@@ -1,5 +1,5 @@
 console.log('praful.js loaded')
-modelPath = 'downloads://iris-model.json'
+modelPath = window.location.host.includes('localhost') ? 'localstorage://iris-model' : 'downloads://iris-model'
 
 urlParams = {}
 if (!window.location.origin.includes("repl.it")) {
