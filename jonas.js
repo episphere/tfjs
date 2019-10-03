@@ -6,6 +6,7 @@ jonas=function(){
 
 jonas.getIris=async function(){ // await jonas.getIris() will place data at jonas.irisData and also return it
     jonas.irisData=await (await fetch('https://episphere.github.io/ai/data/iris.json')).json()
+    console.log('iris data retrieved and also stored at jonas.irisData')
     return jonas.irisData
 }
 
