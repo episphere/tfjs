@@ -34,3 +34,25 @@ jonas.dt2tab=function(dt){ // creates a tabular data frame
     tb.y=tb.y.map(y=>tb.labels.map(yi=>(yi==y)))
     return tb
 }
+
+jonas.layers=async function(){ // testing layers as keras
+    // https://www.tensorflow.org/js/guide/layers_for_keras_users
+    
+    // Build and compile model.
+    const model = tf.sequential();
+    model.add(tf.layers.dense({units: 1, inputShape: [1]}));
+    //model.add(tf.layers.dense({units: 1, inputShape: [1]}));
+    model.compile({optimizer: 'sgd', loss: 'meanSquaredError'});
+
+    // Generate some synthetic data for training.
+    const xs = tf.tensor2d([[1], [2], [3], [4]], [4, 1]);
+    const ys = tf.tensor2d([[1], [3], [5], [7]], [4, 1]);
+
+    // Train model with fit().
+    await model.fit(xs, ys, {epochs: 1000});
+
+    // Run inference with predict().
+    model.predict(tf.tensor2d([[1],[1.5],[2],[2.5],[3],[3.5],[4]], [7, 1])).print();
+    //debugger
+    jonas.model=model
+}
