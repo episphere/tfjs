@@ -117,3 +117,4 @@ chantelle.trackTransforms = async (ctx) =>{
     return pt.matrixTransform(xform.inverse());
   }
 }
+chantelle()
