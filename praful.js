@@ -302,7 +302,7 @@ praful.testModel = async (testConfig) => {
 
 praful.loadDataset = async () => {
   const urlToCSV = urlParams.csvPath
-  const csvConfig = null
+  let csvConfig = null
   if (urlParams.labelCol) {
     csvConfig = {
       columnConfigs: {}
@@ -314,5 +314,5 @@ praful.loadDataset = async () => {
   }
   const dataset = tf.data.csv(urlToCSV, csvConfig)
   console.log(await dataset.columnNames())
-  dataset.forEachAsync((row) => console.log(row ))
+  dataset.forEachAsync((row) => console.log(row))
 }
