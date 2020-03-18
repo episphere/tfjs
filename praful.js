@@ -302,14 +302,17 @@ praful.testModel = async (testConfig) => {
 
 praful.loadDataset = async () => {
   const urlToCSV = urlParams.csvPath
-  const labelColumn = urlParams.labelCol
-  const csvConfig = {
-    columnConfigs: {}
-  }
-  csvConfig.columnConfigs[labelColumn] = {
-    isLabel: true
+  const csvConfig = null
+  if (urlParams.labelCol) {
+    csvConfig = {
+      columnConfigs: {}
+    }
+    const labelColumn = urlParams.labelCol
+    csvConfig.columnConfigs[labelColumn] = {
+      isLabel: true
+    }
   }
   const dataset = tf.data.csv(urlToCSV, csvConfig)
   console.log(await dataset.columnNames())
-  dataset.forEachAsync(({xs, ys}) => console.log(Object.values(xs), Object.values(ys)))
+  dataset.forEachAsync((row) => console.log(row ))
 }
