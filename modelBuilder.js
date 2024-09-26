@@ -66,15 +66,15 @@ const utils = {
         return arr
     },
 
-    convertLabelsToTensor: (arr) => {
-        // Convert n unique labels into an nxn one-hot encoded tensor.
-        const distinctLabels = [...new Set(arr.slice().sort())]
-        return arr.map(value => {
-            const rowLabelsTensor = [0, 0, 0]
-            rowLabelsTensor[distinctLabels.indexOf(value)] = 1
-            return rowLabelsTensor
-        })
-    },
+    // convertLabelsToTensor: (arr) => {
+    //     // Convert n unique labels into an nxn one-hot encoded tensor.
+    //     const distinctLabels = [...new Set(arr.slice().sort())]
+    //     return arr.map(value => {
+    //         const rowLabelsTensor = [0, 0, 0]
+    //         rowLabelsTensor[distinctLabels.indexOf(value)] = 1
+    //         return rowLabelsTensor
+    //     })
+    // },
 
     calculateMetrics: (predictedLabels, actualLabels) => {
         const predictions = tf.argMax(predictedLabels, 1).dataSync()
@@ -119,12 +119,10 @@ export class TFJSModel {
             const {
                 [labelName]: label, ...features
             } = row
-            unlabeledData.push(features)
+            unlabeledData.push(Object.values(features))
             correspLabels.push(label)
         }
 
-        correspLabels = utils.convertLabelsToTensor(correspLabels)
-        unlabeledData = unlabeledData.map(row => Object.values(row))
         return [unlabeledData, correspLabels]
     }
 
@@ -132,7 +130,6 @@ export class TFJSModel {
         const data = await utils.request(datasetURL)
         
         let [unlabeledData, labels] = await this.preprocess(data, labelFieldName)
-        
         const [trainingData, testData] = [unlabeledData.slice(0, data.length * trainTestRatio), unlabeledData.slice(data.length * trainTestRatio)]
         const [trainingLabels, testLabels] = [labels.slice(0, data.length * trainTestRatio), labels.slice(data.length * trainTestRatio)]
         
