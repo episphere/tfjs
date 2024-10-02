@@ -1,4 +1,32 @@
-import * as tf from "https://esm.sh/@tensorflow/tfjs"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: modelBuilder.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: modelBuilder.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as tf from "https://esm.sh/@tensorflow/tfjs"
 
 const DEFAULTS = {
     architecture: [
@@ -82,13 +110,13 @@ export class TFJSModel {
     /**
      * Creates an instance of the TFJSModel.
      * @param {Object} options - The model options.
-     * @param {Array<Object>|Array<number>} [options.architecture=[5,3,3]] - The model architecture configuration. Could be an array of numbers corresponding to the number of units per densely connected layer of the neural network, or an object with more granular properties.
+     * @param {Array&lt;Object>|Array&lt;number>} [options.architecture=[5,3,3]] - The model architecture configuration. Could be an array of numbers corresponding to the number of units per densely connected layer of the neural network, or an object with more granular properties.
      * @param {string} [options.activation="relu"] - The activation function to be used in all the hidden layers. Could be one of: 'elu'|'hardSigmoid'|'linear'|'relu'|'relu6'| 'selu'|'sigmoid'|'softmax'|'softplus'|'softsign'|'tanh'.
      * @param {boolean} [options.bias=true] - Whether to include a bias term in the layers.
      * @param {string} [options.outputActivation="softmax"] - The activation function for the output layer. Could be one of: 'elu'|'hardSigmoid'|'linear'|'relu'|'relu6'| 'selu'|'sigmoid'|'softmax'|'softplus'|'softsign'|'tanh'.
      * @param {string} [options.optimizer="sgd"] - The optimizer to use for training. Could be one of: 'sgd'|'momentum'|'adagrad'|'adadelta'|'adam'|'adamax'|'rmsprop' .
      * @param {string} [options.lossFunc="categoricalCrossentropy"] - The loss function to use for training. Could be one of: 'absoluteDifference'|'computeWeightedLoss'|'cosineDistance'|'hingeLoss'|'huberLoss'|'logLoss'|'meanSquaredError'|'sigmoidCrossEntropy'|'softmaxCrossEntropy'|'binaryAccuracy'|'binaryCrossentropy'|'categoricalAccuracy'|'categoricalCrossentropy'|'cosineProximity'|'meanAbsoluteError'|'meanAbsolutePercentageError'|'meanSquaredError'|'precision'|'recall'|'sparseCategoricalAccuracy'.
-     * @param {Array<string>} [options.metrics=["accuracy"]] - The metrics to track during training. Could be one or more of: 'binaryAccuracy'|'binaryCrossentropy'|'categoricalAccuracy'|'categoricalCrossentropy'|'cosineProximity'|'meanAbsoluteError'|'meanAbsolutePercentageError'|'meanSquaredError'|'precision'|'r2Score'|'recall'|'sparseCategoricalAccuracy' .
+     * @param {Array&lt;string>} [options.metrics=["accuracy"]] - The metrics to track during training. Could be one or more of: 'binaryAccuracy'|'binaryCrossentropy'|'categoricalAccuracy'|'categoricalCrossentropy'|'cosineProximity'|'meanAbsoluteError'|'meanAbsolutePercentageError'|'meanSquaredError'|'precision'|'r2Score'|'recall'|'sparseCategoricalAccuracy' .
      * @param {number} [options.numEpochs=50] - The number of iterations to run the training for.
      * @param {number} [options.batchSize=4] - The batch size to be used every epoch.
      * @param {Object} [options.callbacks] - List of callbacks to be executed at various points during training. Valid callbacks include: 'onTrainBegin(logs)'|'onTrainEnd(logs)'|'onEpochBegin(epoch, logs)'|'onEpochEnd(epoch, logs)'|'onBatchBegin(batch, logs)'|'onBatchEnd(batch, logs)'|'onYield(epoch, batch, logs)'. Includes the 'onEpochEnd' callback by default.
@@ -111,9 +139,9 @@ export class TFJSModel {
 
     /**
      * Preprocesses the data by shuffling it and separating features from labels. Called by default on loading the data.
-     * @param {Array<Object>} data - The input data.
+     * @param {Array&lt;Object>} data - The input data.
      * @param {string} labelName - The name of the label field.
-     * @returns {Promise<Array<Array<any>, Array<any>>>} The unlabeled data and corresponding labels.
+     * @returns {Promise&lt;Array&lt;Array&lt;any>, Array&lt;any>>>} The unlabeled data and corresponding labels.
      */
     preprocess (data, labelName) {
         const shuffledData = utils.shuffleArray(data)
@@ -158,7 +186,7 @@ export class TFJSModel {
      * Compiles the model architecture based on the provided input shape and architecture configuration.
      */
     async build() {
-        if (!Array.isArray(this.inputShape) && isNaN(this.inputShape)) {
+        if (!Array.isArray(this.inputShape) &amp;&amp; isNaN(this.inputShape)) {
             this.inputShape = this.dataset?.trainingData.shape[1]
         }
         if (typeof(this.inputShape) === 'undefined') {
@@ -199,7 +227,7 @@ export class TFJSModel {
 
     /**
      * Trains the model using the loaded dataset.
-     * @returns {Promise<Object>} A promise that resolves to the training information, including the values of the final loss and the metrics specified.
+     * @returns {Promise&lt;Object>} A promise that resolves to the training information, including the values of the final loss and the metrics specified.
      */
     train() {
         if (typeof(this.dataset) === 'undefined') {
@@ -230,7 +258,7 @@ export class TFJSModel {
 
     /**
      * Validates the model on the test dataset and calculates the proportion of correct predictions.
-     * @returns {Promise<number>} A promise that resolves to the proportion of correct predictions (accuracy for now, more metrics could be added later).
+     * @returns {Promise&lt;number>} A promise that resolves to the proportion of correct predictions (accuracy for now, more metrics could be added later).
      */
     test() {
         return new Promise(resolve => {
@@ -245,4 +273,26 @@ export class TFJSModel {
               })
         })
     }
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="TFJSModel.html">TFJSModel</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Wed Oct 02 2024 11:42:40 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
